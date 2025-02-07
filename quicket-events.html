@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quicket Events</title>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <!-- External CSS -->
+    <link rel="stylesheet" href="quicket-events.css">
+    <!-- PapaParse library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+</head>
+
+<body>
+    <h1>Quicket Events</h1>
+    <div style="text-align:center;">
+        <a href="https://www.quicket.co.za/" class="quicket-btn" target="_blank">Visit Quicket</a>
+    </div>
+    <div class="table-container">
+        <table id="csv-table">
+            <caption>Event Listings</caption>
+            <thead>
+                <tr>
+                    <th>Event Title</th>
+                    <th>Event Location</th>
+                    <th>Event Date</th>
+                    <th>Event Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- CSV data will be injected here -->
+            </tbody>
+        </table>
+    </div>
+    <script>
+        fetch('quicket_events.csv')
+            .then(response => response.text())
+            .then(csvText => {
+                const cleanedText = csvText.split("\n").filter(line => !line.trim().startsWith("//")).join("\n");
+                const parsed = Papa.parse(cleanedText, { header: true });
+                const data = parsed.data;
+                const tbody = document.querySelector("#csv-table tbody");
+                data.forEach(row => {
+                    if (row["Event Title"]) {
+                        const tr = document.createElement("tr");
+                        tr.innerHTML = `<td>${row["Event Title"]}</td>
+                                  <td>${row["Event Location"]}</td>
+                                  <td>${row["Event Date"]}</td>
+                                  <td>${row["Event Time"]}</td>`;
+                        tbody.appendChild(tr);
+                    }
+                });
+                setTimeout(() => {
+                    $('#csv-table').DataTable({
+                        paging: true,
+                        searching: true,
+                        info: false,
+                        responsive: true,
+                        language: {
+                            search: "_INPUT_",
+                            searchPlaceholder: "Search events..."
+                        }
+                    });
+                }, 100);
+            })
+            .catch(error => {
+                console.error('Error loading CSV:', error);
+            });
+    </script>
+</body>
+
+</html>
