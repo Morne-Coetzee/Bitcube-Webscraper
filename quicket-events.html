@@ -21,6 +21,7 @@
     <h1>Quicket Events</h1>
     <div style="text-align:center;">
         <a href="https://www.quicket.co.za/" class="quicket-btn" target="_blank">Visit Quicket</a>
+        <button id="dark-mode-toggle" class="dark-mode-toggle">Dark Mode</button>
     </div>
     <div class="table-container">
         <table id="csv-table">
@@ -39,6 +40,20 @@
         </table>
     </div>
     <script>
+        // Check local storage for dark mode flag on load.
+        (function () {
+            const darkModeEnabled = localStorage.getItem("darkMode") === "true";
+            if (darkModeEnabled) {
+                document.body.classList.add("dark-mode");
+            }
+            document.getElementById("dark-mode-toggle").addEventListener("click", () => {
+                document.body.classList.toggle("dark-mode");
+                const isDark = document.body.classList.contains("dark-mode");
+                localStorage.setItem("darkMode", isDark);
+            });
+        })();
+
+        // Fetch CSV file and parse using PapaParse.
         fetch('quicket_events.csv')
             .then(response => response.text())
             .then(csvText => {
