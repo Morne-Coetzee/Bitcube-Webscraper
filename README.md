@@ -29,12 +29,13 @@ pip install -r requirements.txt
 
 1. Clone the Repo
 `git clone https://github.com/Morne-Coetzee/Bitcube-Webscraper.git`
+Then cd to the repo:
 `cd Bitcube-Webscraper`
 
 2. Create a Virtual Environment
 `python -m venv venv`
-`venv\Scripts\activate` on windows
-`source venv/bin/activate` macOS/Linux
+- `venv\Scripts\activate` on windows
+- `source venv/bin/activate` macOS/Linux
 
 3. Install Dependencies
 `pip install -r requirements.txt`
