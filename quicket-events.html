@@ -40,7 +40,6 @@
         </table>
     </div>
     <script>
-        // Check local storage for dark mode flag on load.
         (function () {
             const darkModeEnabled = localStorage.getItem("darkMode") === "true";
             if (darkModeEnabled) {
@@ -65,9 +64,9 @@
                     if (row["Event Title"]) {
                         const tr = document.createElement("tr");
                         tr.innerHTML = `<td>${row["Event Title"]}</td>
-                                  <td>${row["Event Location"]}</td>
-                                  <td>${row["Event Date"]}</td>
-                                  <td>${row["Event Time"]}</td>`;
+                                        <td>${row["Event Location"]}</td>
+                                        <td>${row["Event Date"]}</td>
+                                        <td>${row["Event Time"]}</td>`;
                         tbody.appendChild(tr);
                     }
                 });
